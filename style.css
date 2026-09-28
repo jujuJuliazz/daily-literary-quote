@@ -83,9 +83,9 @@ body {
 .quote-text {
   margin: 0;
   font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
-  font-size: clamp(1.35rem, 5vw, 1.75rem);
+  font-size: clamp(1.15rem, 4.2vw, 1.45rem);
   font-weight: 500;
-  line-height: 1.75;
+  line-height: 1.85;
   color: var(--ink);
   text-wrap: pretty;
   letter-spacing: 0.04em;

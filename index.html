@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="每日一则中国古典公有领域名句——安静阅读。" />
   <meta name="theme-color" content="#f4efe6" />
-  <title>每日古典名句</title>
+  <title>每日古典篇章</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,13 +14,13 @@
 <body>
   <div class="page">
     <header class="header">
-      <p class="eyebrow">每日古典名句</p>
+      <p class="eyebrow">每日古典篇章</p>
       <time id="date" class="date" datetime="">—</time>
     </header>
 
     <main class="main" aria-live="polite">
       <blockquote class="quote">
-        <p id="quote-text" class="quote-text">正在加载今日名句…</p>
+        <p id="quote-text" class="quote-text">正在加载今日篇章…</p>
         <footer class="attribution">
           <cite id="quote-book" class="book"></cite>
           <span id="quote-author" class="author"></span>
@@ -30,7 +30,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>本站仅选用中国古典文献中已进入公有领域的原文短章（如经史子集、唐诗宋词、古文名篇等），不含受版权保护的现代作品或外国著作之现代译文。以上说明仅供参考，不构成法律意见。</p>
+      <p>本站仅选用中国古典小说中已进入公有领域的原文短章（如《红楼梦》《西游记》《水浒传》《三国演义》《儒林外史》《聊斋志异》等），不含受版权保护的现代作品或外国著作之现代译文。以上说明仅供参考，不构成法律意见。</p>
       <p class="credit">安静阅读 · 按亚洲/上海（UTC+8）日历日轮换</p>
     </footer>
   </div>
@@ -91,11 +91,11 @@
           document.getElementById("quote-book").textContent = "《" + q.book + "》";
           document.getElementById("quote-author").textContent = q.author;
           document.getElementById("pd-note").textContent = q.note || "公有领域";
-          document.title = "每日古典名句 · " + q.author;
+          document.title = "每日古典篇章 · " + q.author;
         })
         .catch(function () {
           document.getElementById("quote-text").textContent =
-            "抱歉，今日名句暂时无法加载，请稍后再试。";
+            "抱歉，今日篇章暂时无法加载，请稍后再试。";
         });
     })();
   </script>
