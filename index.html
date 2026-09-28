@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="One public-domain classical literature quote each day — calm reading for Julia Zhang." />
+  <meta name="description" content="每日一则中国古典公有领域名句——安静阅读。" />
   <meta name="theme-color" content="#f4efe6" />
-  <title>Daily Literary Quote</title>
+  <title>每日古典名句</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="page">
     <header class="header">
-      <p class="eyebrow">Daily Literary Quote</p>
+      <p class="eyebrow">每日古典名句</p>
       <time id="date" class="date" datetime="">—</time>
     </header>
 
     <main class="main" aria-live="polite">
       <blockquote class="quote">
-        <p id="quote-text" class="quote-text">Loading today’s quote…</p>
+        <p id="quote-text" class="quote-text">正在加载今日名句…</p>
         <footer class="attribution">
           <cite id="quote-book" class="book"></cite>
           <span id="quote-author" class="author"></span>
@@ -30,8 +30,8 @@
     </main>
 
     <footer class="site-footer">
-      <p>Public-domain literature only. Excerpts are short passages from works free of copyright in the United States (and typically elsewhere), often via Project Gutenberg or older public-domain translations. This site never uses modern copyrighted translations or contemporary bestsellers.</p>
-      <p class="credit">Made for quiet reading · Asia/Shanghai calendar day</p>
+      <p>本站仅选用中国古典文献中已进入公有领域的原文短章（如经史子集、唐诗宋词、古文名篇等），不含受版权保护的现代作品或外国著作之现代译文。以上说明仅供参考，不构成法律意见。</p>
+      <p class="credit">安静阅读 · 按亚洲/上海（UTC+8）日历日轮换</p>
     </footer>
   </div>
 
@@ -40,7 +40,6 @@
       const TZ = "Asia/Shanghai";
 
       function shanghaiYmd(d) {
-        // Calendar day in Asia/Shanghai (UTC+8), independent of visitor locale
         const parts = new Intl.DateTimeFormat("en-CA", {
           timeZone: TZ,
           year: "numeric",
@@ -53,19 +52,18 @@
 
       function dayOfYearShanghai(d) {
         const { y, m, day } = shanghaiYmd(d);
-        // Day number within the Shanghai calendar year (1 = Jan 1)
         const utcNoon = Date.UTC(y, m - 1, day, 12, 0, 0);
         const start = Date.UTC(y, 0, 1, 12, 0, 0);
         return Math.floor((utcNoon - start) / 86400000) + 1;
       }
 
       function formatDate(d) {
-        return new Intl.DateTimeFormat("en-GB", {
+        return new Intl.DateTimeFormat("zh-CN", {
           timeZone: TZ,
-          weekday: "long",
           year: "numeric",
           month: "long",
           day: "numeric",
+          weekday: "long",
         }).format(d);
       }
 
@@ -76,12 +74,12 @@
 
       fetch("quotes.json")
         .then(function (r) {
-          if (!r.ok) throw new Error("Could not load quotes");
+          if (!r.ok) throw new Error("load failed");
           return r.json();
         })
         .then(function (quotes) {
           if (!Array.isArray(quotes) || quotes.length === 0) {
-            throw new Error("No quotes available");
+            throw new Error("empty");
           }
           var now = new Date();
           var index = (dayOfYearShanghai(now) - 1) % quotes.length;
@@ -90,14 +88,14 @@
           document.getElementById("date").textContent = formatDate(now);
           document.getElementById("date").setAttribute("datetime", isoDate(now));
           document.getElementById("quote-text").textContent = q.text;
-          document.getElementById("quote-book").textContent = q.book;
+          document.getElementById("quote-book").textContent = "《" + q.book + "》";
           document.getElementById("quote-author").textContent = q.author;
-          document.getElementById("pd-note").textContent = q.note || "Public domain";
-          document.title = "Daily Literary Quote · " + q.author;
+          document.getElementById("pd-note").textContent = q.note || "公有领域";
+          document.title = "每日古典名句 · " + q.author;
         })
         .catch(function () {
           document.getElementById("quote-text").textContent =
-            "Sorry — today’s quote could not be loaded. Please try again later.";
+            "抱歉，今日名句暂时无法加载，请稍后再试。";
         });
     })();
   </script>
