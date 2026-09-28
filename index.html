@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="One public-domain classical literature quote each day — calm reading for Julia Zhang." />
+  <meta name="theme-color" content="#f4efe6" />
+  <title>Daily Literary Quote</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <p class="eyebrow">Daily Literary Quote</p>
+      <time id="date" class="date" datetime="">—</time>
+    </header>
+
+    <main class="main" aria-live="polite">
+      <blockquote class="quote">
+        <p id="quote-text" class="quote-text">Loading today’s quote…</p>
+        <footer class="attribution">
+          <cite id="quote-book" class="book"></cite>
+          <span id="quote-author" class="author"></span>
+        </footer>
+      </blockquote>
+      <p id="pd-note" class="pd-note"></p>
+    </main>
+
+    <footer class="site-footer">
+      <p>Public-domain literature only. Excerpts are short passages from works free of copyright in the United States (and typically elsewhere), often via Project Gutenberg or older public-domain translations. This site never uses modern copyrighted translations or contemporary bestsellers.</p>
+      <p class="credit">Made for quiet reading · Asia/Shanghai calendar day</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const TZ = "Asia/Shanghai";
+
+      function shanghaiYmd(d) {
+        // Calendar day in Asia/Shanghai (UTC+8), independent of visitor locale
+        const parts = new Intl.DateTimeFormat("en-CA", {
+          timeZone: TZ,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).formatToParts(d);
+        const get = (t) => parts.find((p) => p.type === t).value;
+        return { y: +get("year"), m: +get("month"), day: +get("day") };
+      }
+
+      function dayOfYearShanghai(d) {
+        const { y, m, day } = shanghaiYmd(d);
+        // Day number within the Shanghai calendar year (1 = Jan 1)
+        const utcNoon = Date.UTC(y, m - 1, day, 12, 0, 0);
+        const start = Date.UTC(y, 0, 1, 12, 0, 0);
+        return Math.floor((utcNoon - start) / 86400000) + 1;
+      }
+
+      function formatDate(d) {
+        return new Intl.DateTimeFormat("en-GB", {
+          timeZone: TZ,
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }).format(d);
+      }
+
+      function isoDate(d) {
+        const { y, m, day } = shanghaiYmd(d);
+        return y + "-" + String(m).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+      }
+
+      fetch("quotes.json")
+        .then(function (r) {
+          if (!r.ok) throw new Error("Could not load quotes");
+          return r.json();
+        })
+        .then(function (quotes) {
+          if (!Array.isArray(quotes) || quotes.length === 0) {
+            throw new Error("No quotes available");
+          }
+          var now = new Date();
+          var index = (dayOfYearShanghai(now) - 1) % quotes.length;
+          var q = quotes[index];
+
+          document.getElementById("date").textContent = formatDate(now);
+          document.getElementById("date").setAttribute("datetime", isoDate(now));
+          document.getElementById("quote-text").textContent = q.text;
+          document.getElementById("quote-book").textContent = q.book;
+          document.getElementById("quote-author").textContent = q.author;
+          document.getElementById("pd-note").textContent = q.note || "Public domain";
+          document.title = "Daily Literary Quote · " + q.author;
+        })
+        .catch(function () {
+          document.getElementById("quote-text").textContent =
+            "Sorry — today’s quote could not be loaded. Please try again later.";
+        });
+    })();
+  </script>
+</body>
+</html>

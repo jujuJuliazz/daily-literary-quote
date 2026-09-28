@@ -1,0 +1,182 @@
+:root {
+  --paper: #f4efe6;
+  --paper-edge: #e8e0d2;
+  --ink: #2c2825;
+  --ink-soft: #5c554c;
+  --ink-faint: #8a8278;
+  --accent: #7a6a55;
+  --rule: rgba(44, 40, 37, 0.12);
+  --shadow: 0 12px 40px rgba(60, 45, 30, 0.08);
+  --radius: 18px;
+  --max: 34rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: "Source Sans 3", system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at top, #faf7f1 0%, var(--paper) 55%, var(--paper-edge) 100%);
+  line-height: 1.55;
+}
+
+.page {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 2.75rem) clamp(1.15rem, 4vw, 1.75rem) 2.5rem;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: clamp(1.75rem, 6vw, 2.75rem);
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+
+.date {
+  display: block;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-size: clamp(1.15rem, 3.5vw, 1.35rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quote {
+  margin: 0;
+  padding: clamp(1.5rem, 5vw, 2.25rem) clamp(1.25rem, 4vw, 1.85rem);
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+}
+
+.quote-text {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 5.2vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.quote-text::before {
+  content: "“";
+  color: var(--accent);
+  font-size: 1.15em;
+  margin-right: 0.05em;
+}
+
+.quote-text::after {
+  content: "”";
+  color: var(--accent);
+  font-size: 1.15em;
+  margin-left: 0.05em;
+}
+
+.attribution {
+  margin-top: 1.5rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.book {
+  font-style: italic;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.author {
+  font-size: 0.95rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.author::before {
+  content: "— ";
+}
+
+.pd-note {
+  margin: 1rem 0.25rem 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.01em;
+}
+
+.site-footer {
+  margin-top: clamp(2rem, 8vw, 3.5rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  line-height: 1.55;
+}
+
+.site-footer p {
+  margin: 0 0 0.65rem;
+}
+
+.credit {
+  margin-bottom: 0 !important;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 640px) {
+  .quote {
+    padding: 2.5rem 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .quote {
+    animation: rise 0.7s ease-out;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
